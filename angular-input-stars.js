@@ -7,6 +7,9 @@ angular.module('angular-input-stars', [])
             restrict: 'EA',
             replace: true,
             template: '<ul ng-class="listClass">' +
+            '<li ng-touch="paintStars(-1)" ng-mouseenter="paintStars(-1, true)" ng-mouseleave="unpaintStars(-1, false)">' +
+            '<i  ng-class="getClass(-1)" ng-click="setValue(-1, $event)"></i>' +
+            '</li>' +
             '<li ng-touch="paintStars($index)" ng-mouseenter="paintStars($index, true)" ng-mouseleave="unpaintStars($index, false)" ng-repeat="item in items track by $index">' +
             '<i  ng-class="getClass($index)" ng-click="setValue($index, $event)"></i>' +
             '</li>' +
@@ -24,6 +27,7 @@ angular.module('angular-input-stars', [])
 
             scope.items = new Array(+attrs.max || 5);
 
+            var zeroIcon = attrs.zeroIcon || 'fa-times';
             var emptyIcon = attrs.iconEmpty || 'fa-star-o';
             var iconHover = attrs.iconHover || 'angular-input-stars-hover';
             var fullIcon = attrs.iconFull || 'fa-star';
@@ -38,8 +42,13 @@ angular.module('angular-input-stars', [])
             };
 
             scope.getClass = function (index) {
-
-                return index >= scope.last_value ? iconBase + ' ' + emptyIcon : iconBase + ' ' + fullIcon + ' active ';
+                var cls = [iconBase];
+                if (index < 0)
+                    return iconBase + ' ' + zeroIcon;
+                else if (index >= scope.last_value)
+                    return iconBase + ' ' + emptyIcon;
+                else
+                    return iconBase + ' ' + fullIcon + ' active ';
 
             };
 
@@ -57,11 +66,11 @@ angular.module('angular-input-stars', [])
                 }
                 var items = element.find('li').find('i');
 
-                for (var index = 0; index < items.length; index++) {
+                for (var index = 1; index < items.length; index++) {
 
                     var $star = angular.element(items[index]);
 
-                    if ($index >= index) {
+                    if ($index >= index - 1) {
                         
                         $star.removeClass(emptyIcon);
                         $star.addClass(fullIcon);
