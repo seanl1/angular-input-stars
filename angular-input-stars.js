@@ -22,7 +22,7 @@ angular.module('angular-input-stars', [])
 
         function link(scope, element, attrs, ngModelCtrl) {
 
-            scope.items = new Array(+attrs.max);
+            scope.items = new Array(+attrs.max || 5);
 
             var emptyIcon = attrs.iconEmpty || 'fa-star-o';
             var iconHover = attrs.iconHover || 'angular-input-stars-hover';
