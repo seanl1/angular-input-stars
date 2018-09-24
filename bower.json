@@ -19,9 +19,9 @@
     ],
     "dependencies": {
         "angular": "1.4.x",
-        "font-awesome": "~4.4.0"
+        "font-awesome": "~4.7.0"
     },
     "ignore": [
-        "readme.md"  
+        "readme.md"
     ]
 }
